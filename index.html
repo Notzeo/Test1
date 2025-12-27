@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bhagavad Gita Quiz - 100 Questions ✨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Quicksand:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --glass: rgba(255, 255, 255, 0.9);
+            --text: #3a323a;
+            --deep-rose: #d4418e;
+            --correct: #2ecc71;
+            --wrong: #e74c3c;
+            --accent-pink: #ffafbd;
+            --gradient-start: #fef1f1;
+            --gradient-end: #e0e7ff;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0; padding: 0;
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(180deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+            background-attachment: fixed;
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container { 
+            width: 95%; 
+            max-width: 900px; 
+            margin: 0 auto; 
+            padding: 20px 10px 100px 10px; 
+        }
+
+        header { 
+            text-align: center; 
+            padding: 40px 20px 30px; 
+            animation: fadeInDown 0.8s ease;
+        }
+
+        h1 { 
+            font-family: 'Playfair Display', serif; 
+            color: var(--deep-rose); 
+            font-size: 2.5rem; 
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .lang-toggle {
+            display: inline-flex;
+            gap: 15px;
+            margin: 20px 0;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .lang-btn {
+            padding: 8px 20px;
+            border: 2px solid var(--accent-pink);
+            background: white;
+            color: var(--deep-rose);
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .lang-btn.active {
+            background: linear-gradient(135deg, var(--accent-pink) 0%, #ffc3a0 100%);
+            color: white;
+            border-color: transparent;
+            transform: scale(1.05);
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.3);
+            z-index: 9999;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--deep-rose), var(--accent-pink));
+            transition: width 0.3s ease;
+        }
+
+        .quiz-card {
+            background: var(--glass);
+            border-radius: 25px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border: 1px solid rgba(255,255,255,0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .quiz-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+        }
+
+        .question-number {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--deep-rose), var(--accent-pink));
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .question { 
+            font-weight: 600; 
+            font-size: 1.15rem; 
+            margin-bottom: 20px; 
+            color: #4a3f4a;
+            line-height: 1.8;
+        }
+
+        .question-hindi {
+            font-family: 'Noto Sans Devanagari', sans-serif;
+            color: #5a4f5a;
+            margin-top: 10px;
+            font-size: 1.05rem;
+        }
+
+        .options { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 12px; 
+        }
+
+        .option {
+            background: white;
+            padding: 18px 20px;
+            border-radius: 15px;
+            border: 2px solid #eee;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,175,189,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .option:hover::before {
+            left: 100%;
+        }
+
+        .option:hover { 
+            border-color: var(--accent-pink);
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(212, 65, 142, 0.15);
+        }
+
+        .option-hindi {
+            font-family: 'Noto Sans Devanagari', sans-serif;
+            display: block;
+            margin-top: 5px;
+            font-size: 0.95rem;
+            color: #666;
+        }
+
+        .option.correct {
+            background: linear-gradient(135deg, #d4edda 0%, #c3f5d4 100%) !important;
+            border-color: var(--correct) !important;
+            color: #155724 !important;
+            box-shadow: 0 0 20px rgba(46, 204, 113, 0.5);
+            transform: scale(1.02);
+        }
+
+        .option.correct::after {
+            content: '✓';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: var(--correct);
+            font-weight: bold;
+        }
+
+        .option.wrong {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%) !important;
+            border-color: var(--wrong) !important;
+            color: #721c24 !important;
+            box-shadow: 0 0 20px rgba(231, 76, 60, 0.5);
+            transform: scale(0.98);
+        }
+
+        .option.wrong::after {
+            content: '✗';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: var(--wrong);
+            font-weight: bold;
+        }
+
+        .disabled { 
+            pointer-events: none; 
+            opacity: 0.85; 
+        }
+
+        .submit-btn {
+            display: block; 
+            width: 100%; 
+            max-width: 400px;
+            margin: 40px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffafbd 0%, #ffc3a0 100%);
+            color: white; 
+            border: none; 
+            border-radius: 50px;
+            font-size: 1.3rem; 
+            font-weight: 700; 
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(212, 65, 142, 0.3);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(212, 65, 142, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+
+        #result-box {
+            display: none; 
+            text-align: center; 
+            padding: 50px 30px;
+            background: white; 
+            border-radius: 30px; 
+            margin-top: 40px;
+            border: 3px solid var(--accent-pink);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            animation: zoomIn 0.5s ease;
+        }
+
+        #result-box h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--deep-rose);
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        #result-box p {
+            font-size: 1.2rem;
+            color: #666;
+            margin: 10px 0;
+        }
+
+        .score-emoji {
+            font-size: 4rem;
+            margin: 20px 0;
+        }
+
+        .score-message {
+            font-weight: 600;
+            color: var(--deep-rose);
+            font-size: 1.3rem;
+            margin-top: 15px;
+        }
+
+        footer { 
+            text-align: center; 
+            padding: 40px 20px; 
+            font-weight: 600; 
+            color: var(--deep-rose);
+            font-size: 1.1rem;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .question { font-size: 1.05rem; }
+            .quiz-card { padding: 20px; }
+            .submit-btn { font-size: 1.1rem; }
+        }
+
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, var(--deep-rose), var(--accent-pink));
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            font-size: 1.5rem;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .scroll-top.show { display: flex; }
+    </style>
+</head>
+<body>
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressBar"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>श्रीमद्भगवद्गीता Quiz ✨</h1>
+            <h1>Bhagavad Gita MCQ Assessment</h1>
+            <p class="subtitle">Management Paradigms from Bhagavad Gita<br>100 Questions • 1 Mark Each</p>
+            
+            <div class="lang-toggle">
+                <button class="lang-btn active" onclick="setLanguage('both')" id="btnBoth">Both Languages</button>
+                <button class="lang-btn" onclick="setLanguage('english')" id="btnEnglish">English Only</button>
+                <button class="lang-btn" onclick="setLanguage('hindi')" id="btnHindi">हिंदी केवल</button>
+            </div>
+        </header>
+
+        <form id="quiz-form">
+            <div id="quiz-container"></div>
+            <button type="button" class="submit-btn" onclick="calculateScore()">🏆 Submit & View Results 🏆</button>
+        </form>
+
+        <div id="result-box">
+            <div class="score-emoji" id="scoreEmoji">🎉</div>
+            <h2 id="score-text"></h2>
+            <p id="percentage-text"></p>
+            <p class="score-message" id="score-message"></p>
+            <p style="margin-top: 30px; font-size: 1rem;">Complete your Bhagavad Gita journey 🦋</p>
+        </div>
+
+        <footer>
+            SACRED KNOWLEDGE • श्रीमद्भगवद्गीता • 2025 🌸
+        </footer>
+    </div>
+
+    <div class="scroll-top" id="scrollTop" onclick="scrollToTop()">↑</div>
+
+    <script>
+        const questions = [
+            { qEn: "The source text of the Bhagavat Gita is-", qHi: "भगवद गीता का आधार ग्रन्थ है-", a: { en: "Mahabharata", hi: "महाभारत" }, b: { en: "Ramayana", hi: "रामायण" }, c: { en: "Neeti Shatak", hi: "नीतिशतकम्" }, d: { en: "Purana", hi: "पुराण" }, correct: "a" },
+            { qEn: "Where did shri Krishna give the sermon of the Bhagavad Gita to Arjuna?", qHi: "श्रीकृष्ण ने अर्जुन को भगवद्गीता का उपदेश कहाँ दिया था-", a: { en: "Panipat", hi: "पानीपत" }, b: { en: "Kurukshetra", hi: "कुरुक्षेत्र" }, c: { en: "Haldi Ghati", hi: "हल्दीघाटी" }, d: { en: "Plasi", hi: "प्लासी" }, correct: "b" },
+            { qEn: "How many chapters are there in the Bhagavad Gita?", qHi: "भगवद्गीता में कितने अध्याय हैं-", a: { en: "20", hi: "20" }, b: { en: "22", hi: "22" }, c: { en: "18", hi: "18" }, d: { en: "24", hi: "24" }, correct: "c" },
+            { qEn: "The total number of verses in the Gita is-", qHi: "गीता में कुल श्लोकों की संख्या-", a: { en: "900", hi: "900" }, b: { en: "800", hi: "800" }, c: { en: "600", hi: "600" }, d: { en: "700", hi: "700" }, correct: "d" },
+            { qEn: "Hrishkesh was related to-", qHi: "ऋषिकेश किसका सम्बोधन है-", a: { en: "Shri Krishna", hi: "श्रीकृष्ण" }, b: { en: "Arjuna", hi: "अर्जुन" }, c: { en: "Bhishma", hi: "भीष्म" }, d: { en: "Sahadev", hi: "सहदेव" }, correct: "a" },
+            { qEn: "Savyasachi was related to-", qHi: "सव्यसाची किसका सम्बोधन है-", a: { en: "Arjuna", hi: "अर्जुन" }, b: { en: "Shri Krishna", hi: "श्रीकृष्ण" }, c: { en: "Dronacharya", hi: "द्रोणाचार्य" }, d: { en: "Ashwathama", hi: "अश्वत्थामा" }, correct: "a" },
+            { qEn: "The name of the second chapter of the Gita is-", qHi: "गीता के द्वितीय अध्याय का क्या नाम हैं।", a: { en: "Sankhya Yoga", hi: "सांख्य योग" }, b: { en: "Raj Yoga", hi: "राजयोग" }, c: { en: "Karma Yoga", hi: "कर्मयोग" }, d: { en: "Vibhuti Yoga", hi: "विभूति योग" }, correct: "a" },
+            { qEn: "Eternal, Everlasting and Ancient is the nature of-", qHi: "अज, नित्य, शाश्वत तथा पुराण किसका स्वरूप है-", a: { en: "Body", hi: "शरीर" }, b: { en: "Soul (Atma)", hi: "आत्मा" }, c: { en: "Karma", hi: "कर्म" }, d: { en: "Wealth", hi: "धन" }, correct: "b" },
+            { qEn: "Who is called Partha?", qHi: "पार्थ किसे कहा जाता है-", a: { en: "Shri Krishna", hi: "श्रीकृष्ण" }, b: { en: "Arjuna", hi: "अर्जुन" }, c: { en: "Karna", hi: "कर्ण" }, d: { en: "Suyodhan", hi: "सुयोधन" }, correct: "b" },
+            { qEn: "Whose name was Pritha?", qHi: "प्रथा किसका नाम था?", a: { en: "Kunti", hi: "कुन्ती" }, b: { en: "Gandhari", hi: "गान्धारी" }, c: { en: "Draupadi", hi: "द्रोपदी" }, d: { en: "Rukmani", hi: "रूक्मिणी" }, correct: "a" },
+            { qEn: "What is it called when the soul is satisfied with the Soul-", qHi: "आत्मा से आत्मा में ही सन्तुष्ट हुआ क्या कहलाता है-", a: { en: "Soul (Atma)", hi: "आत्मा" }, b: { en: "Yoga", hi: "योग" }, c: { en: "Wealth", hi: "धन" }, d: { en: "None of the above", hi: "इनमें से कोई नहीं" }, correct: "a" },
+            { qEn: "According to the Bhagavad Gita what is skill in action-", qHi: "भगवद्‌गीता के अनुसार कर्मों में कुशलता क्या है-", a: { en: "Sthithpragya", hi: "स्थित प्रज्ञ" }, b: { en: "Dhani", hi: "धनी" }, c: { en: "Scholar", hi: "विद्वान" }, d: { en: "Greedy", hi: "लोभी" }, correct: "a" },
+            { qEn: "What are the nature of the senses and the mind-", qHi: "इन्द्रियाँ और मन किस स्वभाव के है-", a: { en: "Pramathan Svabhav Ke", hi: "प्रमथन स्वभाव के" }, b: { en: "Vipret Svabhav Ke", hi: "विपरीत स्वभाव के" }, c: { en: "Crur Svabhav ke", hi: "क्रूर स्वभाव के" }, d: { en: "None", hi: "इनमें से कोई नहीं" }, correct: "a" },
+            { qEn: "Who was the Author of the Bhagavad Gita?", qHi: "भगवद्गीता के रचयिता कौन थे?", a: { en: "Ved Vyaas", hi: "वेद व्यास" }, b: { en: "Kalidas", hi: "कालिदास" }, c: { en: "Valmiki", hi: "वाल्मीकि" }, d: { en: "Maagh", hi: "माघ" }, correct: "a" },
+            { qEn: "Ved Vyaas was the son of-", qHi: "वेद व्यास किसके पुत्र थे?", a: { en: "Kashyap", hi: "कश्यप" }, b: { en: "Atri", hi: "अत्रि" }, c: { en: "Valmiki", hi: "वशिष्ठ" }, d: { en: "Rishi Parashar", hi: "ऋषि पाराशर" }, correct: "d" },
+            { qEn: "Shri Krishna's conch name was-", qHi: "श्रीकृष्ण के शंख का क्या नाम है?", a: { en: "Paundra", hi: "पौड़" }, b: { en: "Devdatta", hi: "देवदत्त" }, c: { en: "Panchajanya", hi: "पाञ्चजन्य" }, d: { en: "Manipushpak", hi: "मणिपुस्तक" }, correct: "c" },
+            { qEn: "The name of conch Arjuna's was-", qHi: "अर्जुन के शंख का नाम क्या था?", a: { en: "Sughosha", hi: "सुघोष" }, b: { en: "Manipushpak", hi: "मणिपुष्पक" }, c: { en: "Devadatta", hi: "देवदत्त" }, d: { en: "Paundra", hi: "पाँड्" }, correct: "c" },
+            { qEn: "The name of Bhima's conch was-", qHi: "भीम के शंख का नाम क्या था?", a: { en: "Paundra", hi: "पौण्ड्र" }, b: { en: "Sughosha", hi: "सुघोष" }, c: { en: "Gangnabh", hi: "गंगनाभ" }, d: { en: "Hiranyagarbha", hi: "हिरण्यगर्म" }, correct: "a" },
+            { qEn: "Who gave the divine bow Vijaya to Karna-", qHi: "कर्ण को दिव्य विजय धनुष किसने दिया-", a: { en: "Lord Shiva", hi: "भगवान शिव" }, b: { en: "Lord Surya", hi: "भगवान सूर्य" }, c: { en: "Bhishma", hi: "भीष्म" }, d: { en: "Parashurama", hi: "परशुराम" }, correct: "d" },
+            { qEn: "What symbol was inscribed on Arjuna's Flag?", qHi: "अर्जुन के ध्वज में किसका चिह अंकित था?", a: { en: "Vishnu", hi: "विष्णु" }, b: { en: "Shiva", hi: "शिव" }, c: { en: "Hanuman", hi: "हनुमान" }, d: { en: "Bramha", hi: "ब्रह्मा" }, correct: "c" },
+            { qEn: "After which king was Kurukshetra named?", qHi: "कुरुक्षेत्र का नाम किस राजा के नाम पर पड़ा?", a: { en: "King Kuru", hi: "राजा कुरू" }, b: { en: "King Harsha", hi: "राजा हर्ष" }, c: { en: "King Bhishma", hi: "राजा भीष्मक" }, d: { en: "King Susharma", hi: "राजा सुशर्मा" }, correct: "a" },
+            { qEn: "Who was Arjuna's Charioteer?", qHi: "अर्जुन के सारथि कौन थे?", a: { en: "Shri Krishna", hi: "श्रीकृष्ण" }, b: { en: "Karna", hi: "कर्ण" }, c: { en: "Bhishma", hi: "भीष्म" }, d: { en: "Nakul", hi: "नाकुल" }, correct: "a" },
+            { qEn: "Apart from Arjuna, Who saw and heard the teachings of the Bhagavad Gita?", qHi: "अर्जुन के अतिरिक्त गीता का उपदेश किसने देखा और सुना-", a: { en: "Gandhari", hi: "गान्धारी" }, b: { en: "Sanjaya", hi: "संजय" }, c: { en: "Kripacharya", hi: "कृपाचार्य" }, d: { en: "No one", hi: "किसी ने नहीं" }, correct: "b" },
+            { qEn: "Gudakesh is addressed to whom-", qHi: "गुड़ाकेश किसका सम्बोधन है-", a: { en: "Bhima", hi: "भीम" }, b: { en: "Shri Krishna", hi: "श्रीकृष्ण" }, c: { en: "Nakula", hi: "नकुल" }, d: { en: "Arjuna", hi: "अर्जुन" }, correct: "d" },
+            { qEn: "Who is called Sutaputra in the Mahabharata-", qHi: "महाभारत में सूत पुत्र किसको कहा गया-", a: { en: "Abhimanyu", hi: "अभिमन्यु" }, b: { en: "Ghatotkacha", hi: "घटोत्कच" }, c: { en: "Chitrasena", hi: "चित्रसेन" }, d: { en: "Karna", hi: "कर्ण" }, correct: "d" },
+            { qEn: "Which are the three authoritative text of Vedanta called the Prashtana Trayi-", qHi: "वेदान्त के तीन प्रामाणिक ग्रन्थ कौन से हैं जो प्रस्थानत्रपी कहलाते हैं-", a: { en: "Upanishads, Gita, Bharmasutra", hi: "उपनिषद, श्रीमद् भगवद्गीता, ब्रह्म सूत्र" }, b: { en: "Upanishads, Neetishatak, Bhramasutra", hi: "उपनिषद, नीतिशतक, ब्रह्म सूत्र" }, c: { en: "Upanishads, Puran, Gita", hi: "उपनिषद, पुराण, गीता" }, d: { en: "Upanishads, Dharmashastra, Bhramasutra", hi: "उपनिषद, धर्मशास्त्र, ब्रह्म सूत्र" }, correct: "a" },
+            { qEn: "What is the name of the first chapter of the Gita?", qHi: "गीता के प्रथम अध्याय का नाम क्या है?", a: { en: "Atmasanyam Yoga", hi: "आत्म संयम योग" }, b: { en: "Arjuna Vishad Yoga", hi: "अर्जुन विषाद योग" }, c: { en: "Sankhya Yoga", hi: "सांख्य योग" }, d: { en: "Bhakti Yoga", hi: "भक्ति योग" }, correct: "b" },
+            { qEn: "The chapter named Bhakti Yoga is-", qHi: "भक्ति योग नामक अध्याय का क्रमांक क्या है-", a: { en: "10th", hi: "10" }, b: { en: "12th", hi: "12" }, c: { en: "15th", hi: "15" }, d: { en: "18th", hi: "18" }, correct: "b" },
+            { qEn: "How many Shlokas are there in the second chapter of the Gita-", qHi: "गीता के द्वितीय अध्याय में कितने श्लोक हैं-", a: { en: "72", hi: "72" }, b: { en: "48", hi: "48" }, c: { en: "50", hi: "50" }, d: { en: "18", hi: "18" }, correct: "a" },
+            { qEn: "What kind of scripture is the Gita-", qHi: "गीता कैसा शास्त्र है-", a: { en: "Samaj Shastra", hi: "समाज शास्त्र" }, b: { en: "Niti Shashtra", hi: "नीति शास्त्र" }, c: { en: "Arth Shashtra", hi: "अर्थ शास्त्र" }, d: { en: "Yoga Shashtra", hi: "योग शास्त्र" }, correct: "d" },
+            { qEn: "Which Instrument was not played in the battle field of Kurukshetra-", qHi: "कुरूक्षेत्र के रण में कौन सा वाघ नहीं बजाया गया-", a: { en: "Aanath", hi: "आनक" }, b: { en: "Drum (Dundubhi)", hi: "दुंदभी" }, c: { en: "Conch", hi: "शंख" }, d: { en: "Flute", hi: "वंशी" }, correct: "d" },
+            { qEn: "The Gita is the essence of -", qHi: "गीता किसका सार है-", a: { en: "Upanishads", hi: "उपनिषदों का" }, b: { en: "Ramayana", hi: "रामायण" }, c: { en: "Vedas", hi: "वेद" }, d: { en: "Puranas", hi: "पुराण" }, correct: "a" },
+            { qEn: "Lord Krishna gave Arjuna the teachings of which Gita-", qHi: "भगवान श्रीकृष्ण ने अर्जुन को किस गीता का उपदेश दिया था-", a: { en: "Yatharth Gita", hi: "यथार्थ गीता" }, b: { en: "Avadhuta Gita", hi: "अवधूत गीता" }, c: { en: "Surya Gita", hi: "सूर्य गीता" }, d: { en: "Bhagavad Gita", hi: "भगवद् गीता" }, correct: "d" },
+            { qEn: 'What is the meaning of "mashuchan"-', qHi: "माशुचः का अर्थ क्या हैं-", a: { en: "Do not grieve", hi: "शोक मत कर" }, b: { en: "Grieve", hi: "शोक कर" }, c: { en: "Gain Wealth", hi: "धन प्राप्त करो" }, d: { en: "Good Health", hi: "अच्छा स्वास्थ्य" }, correct: "a" },
+            { qEn: "At which location in Kurukeshra was the sermon of the Bhagavad Gita delivered-", qHi: "गीता का उपदेश कुरूक्षेत्र के कौन से स्थान पर दिया गया था-", a: { en: "Jyotisar Villege", hi: "ज्योतिसर ग्राम" }, b: { en: "Anjarthali", hi: "अनजरथली" }, c: { en: "Bhanakpur", hi: "भानकपुर" }, d: { en: "Sissai", hi: "सिस्सई" }, correct: "a" },
+            { qEn: "In which meter/chhanda is the Bhagavad Gita written-", qHi: "गीता किस छन्द में लिखी गई है-", a: { en: "Basanttilaka", hi: "बसंततिलका" }, b: { en: "Arya", hi: "आर्या" }, c: { en: "Gayatri", hi: "गायत्री" }, d: { en: "Anushtup", hi: "अनुष्टुप" }, correct: "d" },
+            { qEn: "The Gita is a part of which Parva of the Mahabharata-", qHi: "गीता महाभारत के कौन से पर्व में है-", a: { en: "Bhisma Parva", hi: "भीस्म पर्व" }, b: { en: "Adi Parva", hi: "आदि पर्व" }, c: { en: "Udyoga Parva", hi: "उद्योग पर्व" }, d: { en: "Vann Parva", hi: "वन पर्व" }, correct: "a" },
+            { qEn: "Who receive the Knowledge of the Gita before Arjuna-", qHi: "अर्जुन से पहले गीता का ज्ञान किन्हें मिला था-", a: { en: "Chandrama", hi: "चन्द्रमा" }, b: { en: "Surya Deva", hi: "सूर्य देव" }, c: { en: "Vishnu Deva", hi: "विष्णु देव" }, d: { en: "Indra", hi: "इन्द्र" }, correct: "b" },
+            { qEn: "In which language was the Bhagawad Gita written-", qHi: "भगवद्गीता किस भाषा में लिखी गई है-", a: { en: "Hindi", hi: "हिंदी" }, b: { en: "English", hi: "अंग्रेजी" }, c: { en: "Sanskrit", hi: "संस्कृत" }, d: { en: "Farsi", hi: "फारसी" }, correct: "c" },
+            { qEn: "According to the Gita What is Dharma-", qHi: "गीता के अनुसार धर्म क्या है-", a: { en: "Karma (action)", hi: "कर्म" }, b: { en: "Bhakti (Devotion)", hi: "भक्ति" }, c: { en: "Yoga", hi: "योग" }, d: { en: "All of these", hi: "सभी विकल्प" }, correct: "d" },
+            { qEn: "In what form was God Manifested in the Bhagavad Gita", qHi: "भगवद गीता में भगवान किस रूप में प्रकट हुए थे-", a: { en: "Virat", hi: "विराट" }, b: { en: "Veer", hi: "वीर" }, c: { en: "Yogi", hi: "योगी" }, d: { en: "Rama", hi: "राम" }, correct: "a" },
+            { qEn: "What is the literary meaning of the Bhagavad Gita-", qHi: "भगवद्गीता का साहित्यिक अर्थ क्या है-", a: { en: "Song of War", hi: "युद्ध का गीत" }, b: { en: "Song of God", hi: "ईश्वर का गीत" }, c: { en: "Song of Veer", hi: "वीर का गीत" }, d: { en: "None of these", hi: "इनमें से कोई नहीं" }, correct: "b" },
+            { qEn: "Pandavas belonged to which dynasty-", qHi: "पाण्डव किस वंश के थे-", a: { en: "Yaduvanshi", hi: "यदुवंशी" }, b: { en: "Kuruvansh", hi: "कुरुवंश" }, c: { en: "Suryavansh", hi: "सूर्यवंश" }, d: { en: "None of these", hi: "इनमें से कोई नहीं" }, correct: "b" },
+            { qEn: "To whom were the Kauravas and Pandavas descendants?", qHi: "कौरव और पाण्डव किसके वंशज थे-", a: { en: "Bharat", hi: "भरत" }, b: { en: "Vashishtha", hi: "वशिष्ठ" }, c: { en: "Vishvamitra", hi: "विश्वामित्र" }, d: { en: "Atri", hi: "अत्रि" }, correct: "a" },
+            { qEn: "By whom were the Kauravas and Pandavas trained in military tacties-", qHi: "कौरवों और पाण्डवों को किसके द्वारा सैन्यकला का प्रशिक्षण दिया गया-", a: { en: "Dronacharya", hi: "द्रोणाचार्य" }, b: { en: "Dadhichi", hi: "दधीचि" }, c: { en: "Kanva", hi: "कण्व" }, d: { en: "Vamdev", hi: "वामदेव" }, correct: "a" },
+            { qEn: "Who was the advisor of the Kuravas and Pandavas?", qHi: "कौरवों और पाण्डवों के परामर्श दाता कौन थे?", a: { en: "Bhishma Pitamah", hi: "भीष्म पितामह" }, b: { en: "Karma", hi: "कर्म" }, c: { en: "Shonak", hi: "शौनक" }, d: { en: "Kashyap", hi: "कश्यप" }, correct: "a" },
+            { qEn: "Who is the speaker of the Bhagavad Gita-", qHi: "भगवद्गीता के वक्ता-", a: { en: "Sanjay", hi: "संजय" }, b: { en: "Shri Krishna", hi: "श्रीकृष्ण" }, c: { en: "Bhima", hi: "भीम" }, d: { en: "Dhritarashtra", hi: "धृतराष्ट्र" }, correct: "b" },
+            { qEn: "What was the relationship between Arjuna and Krishna?", qHi: "अर्जुन का कृष्ण से सम्बन्ध किस रूप में था?", a: { en: "Friend", hi: "सखा" }, b: { en: "Father", hi: "पिता" }, c: { en: "Brother-in-Law", hi: "बहनोई" }, d: { en: "All of these", hi: "सभी विकल्प" }, correct: "d" },
+            { qEn: "Which Varna is considered ideal for good governance-", qHi: "उत्तम शासन के लिए कौन सा वर्ण माना जाता है-", a: { en: "Brahman", hi: "ब्राह्मण" }, b: { en: "Chhatriya", hi: "क्षत्रिय" }, c: { en: "Vaishya", hi: "वैश्य" }, d: { en: "Shudra", hi: "शूद्र" }, correct: "b" },
+            { qEn: "Whose teaching is the essence of all Vedic Knowledge-", qHi: "किसका उपदेश समस्त वैदिक ज्ञान का सार है-", a: { en: "Rama", hi: "राम" }, b: { en: "Shri Krishna", hi: "श्रीकृष्ण" }, c: { en: "Bhishma", hi: "भीष्म" }, d: { en: "Prashurama", hi: "परशुराम" }, correct: "b" },
+            { qEn: "The name of the third Chapter-", qHi: "तृतीय अध्याय का नाम-", a: { en: "Karma Yoga", hi: "कर्म योग" }, b: { en: "Sankhya Yoga", hi: "सांख्य योग" }, c: { en: "Rajyog", hi: "राजयोग" }, d: { en: "Gyan-Vigyan Yoga", hi: "ज्ञान-विज्ञान योग" }, correct: "a" },
+            { qEn: "What is Ashtang Yoga method-", qHi: "अष्टांग योग पद्धति क्या है-", a: { en: "To control the mind and senses", hi: "मन तथा इन्द्रियों को वश में करने का साधन" }, b: { en: "No search for meaning of life", hi: "जीवन के अर्थ की खोज नहीं" }, c: { en: "Take breaks from work", hi: "काम से विश्राम लेना" }, d: { en: "None", hi: "इनमें से कोई नहीं" }, correct: "a" },
+            { qEn: "Lust, Anger, and greed are considered gates to-", qHi: "काम, क्रोध तथा लोभ किसके द्वार कहे गये हैं-", a: { en: "Hell", hi: "नरक" }, b: { en: "Heaven", hi: "स्वर्ग" }, c: { en: "Space", hi: "अंतरिक्ष" }, d: { en: "Ocean", hi: "सागर" }, correct: "a" },
+            { qEn: "What are the three gunas (qualities) of Prakriti-", qHi: "प्रकृति के कितने गुण हैं-", a: { en: "4", hi: "4" }, b: { en: "7", hi: "7" }, c: { en: "3", hi: "3" }, d: { en: "32", hi: "32" }, correct: "c" },
+            { qEn: "In which chapter is the teaching of the Purushotam yoga method given-", qHi: "पुरूषोत्तम योग पद्धति का उपदेश किस अध्याय में हुआ है-", a: { en: "15", hi: "15" }, b: { en: "8", hi: "8" }, c: { en: "10", hi: "10" }, d: { en: "16", hi: "16" }, correct: "a" },
+            { qEn: "After listening the Gita from Lord Krishna whom did Arjuna accept as the Supreme Brahaman.", qHi: "भगवान से गीता सुनने के बाद अर्जुन ने किसको परम ब्रह्म स्वीकार कर लिया-", a: { en: "Jiva", hi: "जीव" }, b: { en: "Shri Krishna", hi: "श्रीकृष्ण" }, c: { en: "Kunti", hi: "कुन्ती" }, d: { en: "Bhisma", hi: "भीष्म" }, correct: "b" },
+            { qEn: "How many verses are in the seventh chapter of Gita-", qHi: "गीता के सप्तम अध्याय में कुल कितने श्लोक हैं-", a: { en: "72", hi: "72" }, b: { en: "42", hi: "42" }, c: { en: "63", hi: "63" }, d: { en: "30", hi: "30" }, correct: "d" },
+            { qEn: "Whom is Madhusudana addressed to-", qHi: "मधुसूदन किसका सम्बोधन है-", a: { en: "Karna", hi: "कर्ण" }, b: { en: "Kripacharya", hi: "कृपाचार्य" }, c: { en: "Krishna", hi: "श्रीकृष्ण" }, d: { en: "Arjuna", hi: "अर्जुन" }, correct: "c" },
+            { qEn: "The Gita describes-", qHi: "गीता में वर्णित है-", a: { en: "Nishkaam Karmayoga", hi: "निस्काम कर्म योग" }, b: { en: "Sakam Karma Yoga", hi: "सकाम कर्म योग" }, c: { en: "Nishkam Gyan Yoga", hi: "निष्काम ज्ञान योग" }, d: { en: "Sakam Gyan Yoga", hi: "सकाम ज्ञान योग" }, correct: "a" },
+            { qEn: "Who gave the divine Gandiva Dhanush to Arjuna-", qHi: "अर्जुन के दिव्य गांडीव धनुष किसने प्रदान किया था-", a: { en: "Agnidev", hi: "अग्नि देव" }, b: { en: "Chandradev", hi: "चन्द्र देव" }, c: { en: "Shiva", hi: "शिव" }, d: { en: "Indradev", hi: "इन्द्र देव" }, correct: "a" },
+            { qEn: "Where Arjuna asked Krishna to take his Chariot-", qHi: "अर्जुन ने श्रीकृष्ण से अपना रथ कहाँ ले जाने को कहा-", a: { en: "Outside the battlefield", hi: "युद्धभूमि के बाहर" }, b: { en: "In front of Bhishma's Chariot", hi: "भीष्म के रथ के सामने" }, c: { en: "In the middle of both armies in Kurukshetra", hi: "कुरुक्षेत्र में दोनों सेनाओं के बीच में" }, d: { en: "In front of Karna's Chariot", hi: "कर्ण के रथ के सामने" }, correct: "c" },
+            { qEn: "The three modes are called-", qHi: "त्रिगुण कहलाते हैं-", a: { en: "Sattva, Rajas, Tamas", hi: "सत्व, रजस, तमास" }, b: { en: "Sattva, Knowledge Development", hi: "सत्व, ज्ञान विकास" }, c: { en: "Sattva, Rajas, Knowledge", hi: "सत्व, रजस, ज्ञान" }, d: { en: "None", hi: "कोई नहीं" }, correct: "a" },
+            { qEn: "To whom did Sanjaya narrate the events of the Mahabharata was-", qHi: "संजय किसको गीता सुना रहा था-", a: { en: "Vidura", hi: "विदूर" }, b: { en: "Shri Krishna", hi: "श्रीकृष्ण" }, c: { en: "Dhritarashtra", hi: "धृतराष्ट्र" }, d: { en: "Bhisma", hi: "भीष्म" }, correct: "c" },
+            { qEn: "Who was also known Dhananjaya in Mahabharata-", qHi: "महाभारत में धनंजय के नाम से भी किसे जाना जाता था-", a: { en: "Shri Krishna", hi: "श्रीकृष्ण" }, b: { en: "Nakul", hi: "नकुल" }, c: { en: "Sahadev", hi: "सहदेव" }, d: { en: "Arjuna", hi: "अर्जुन" }, correct: "d" },
+            { qEn: "Which is the largest chapter of the Bhagavad Gita-", qHi: "भगवद्गीता का सबसे बड़ा अध्याय कौन सा है-", a: { en: "18", hi: "18" }, b: { en: "12", hi: "12" }, c: { en: "5", hi: "5" }, d: { en: "13", hi: "13" }, correct: "a" },
+            { qEn: "Which is the shortest chapter of the the Bhagavad Gita-", qHi: "भगवद्गीता का सबसे छोटा अध्याय कौन सा है-", a: { en: "15", hi: "15" }, b: { en: "12", hi: "12" }, c: { en: "Both", hi: "दोनों ही" }, d: { en: "None", hi: "कोई नहीं" }, correct: "c" },
+            { qEn: "How many slokas are there in the 12th Chapter of the Gita-", qHi: "गीता के 12 वें अध्याय में कितने श्लोक हैं-", a: { en: "20", hi: "20" }, b: { en: "40", hi: "40" }, c: { en: "18", hi: "18" }, d: { en: "17", hi: "17" }, correct: "a" },
+            { qEn: "Which scripture contains the verse Yogah Karmasu Kausalam-", qHi: "योगः कर्मसु कौशलम् किस ग्रन्थ से है-", a: { en: "Ramayana", hi: "रामायण" }, b: { en: "Bhagavad Gita", hi: "भगवद्‌गीता" }, c: { en: "Charak Sahinta", hi: "चरक संहिता" }, d: { en: "None", hi: "कोई नहीं" }, correct: "b" },
+            { qEn: "Dharamakshetre Kurukshetra Samveta Yuyutsavan is in which chapter-", qHi: "धर्मक्षेत्रे कुरुक्षेत्रे समवेता युयुत्सवः किस अध्याय में है-", a: { en: "In the first chapter", hi: "प्रथम अध्याय में" }, b: { en: "In the Fourth Chapter", hi: "चतुर्थ अध्याय में" }, c: { en: "In the Fifth Chapter", hi: "पंचम अध्याय में" }, d: { en: "In the Seventh Chapter", hi: "सप्तम अध्याय में" }, correct: "a" },
+            { qEn: "Which of the following describes the nature of the soul?", qHi: "निम्नलिखित में से कौन आत्मा के स्वरूप का वर्णन करता है?", a: { en: "Weapons cannot cut it", hi: "नैनं छिन्दन्ति शस्त्राणि" }, b: { en: "Fire cannot burn it", hi: "नैनं दहति पावकः" }, c: { en: "Water cannot wet it", hi: "न चैनं क्लेदयन्त्यापो" }, d: { en: "All of the above", hi: "उपरोक्त सभी" }, correct: "d" },
+            { qEn: "Which of these is NOT one of the three gates to Hell mentioned in the Gita?", qHi: "गीता में वर्णित नरक के तीन द्वारों में से कौन सा नहीं है?", a: { en: "Lust", hi: "काम" }, b: { en: "Anger", hi: "क्रोध" }, c: { en: "Greed", hi: "लोभ" }, d: { en: "Charity", hi: "दान" }, correct: "d" },
+            { qEn: 'The "Middle Path" in the Gita refers to avoiding extremes in:', qHi: "गीता में 'मध्यम मार्ग' का अर्थ है किन अतिवादों से बचना:", a: { en: "Eating and sleeping", hi: "खान-पान और शयन" }, b: { en: "Working and resting", hi: "कार्य और विश्राम" }, c: { en: "Both A and B", hi: "A और B दोनों" }, d: { en: "None", hi: "कोई नहीं" }, correct: "c" },
+            { qEn: "Who is the 'Kshetragya' (Knower of the Field)?", qHi: "'क्षेत्रज्ञ' (क्षेत्र को जानने वाला) कौन है?", a: { en: "The Body", hi: "शरीर" }, b: { en: "The Soul", hi: "आत्मा" }, c: { en: "Nature", hi: "प्रकृति" }, d: { en: "The Mind", hi: "मन" }, correct: "b" },
+            { qEn: "What is the name of Chapter 15?", qHi: "15वें अध्याय का क्या नाम है?", a: { en: "Purushottama Yoga", hi: "पुरुषोत्तम योग" }, b: { en: "Bhakti Yoga", hi: "भक्ति योग" }, c: { en: "Karma Yoga", hi: "कर्म योग" }, d: { en: "Gyana Yoga", hi: "ज्ञान योग" }, correct: "a" },
+            { qEn: "What is 'Samatvam'?", qHi: "'समत्वम्' क्या है?", a: { en: "Equality in success and failure", hi: "सिद्धि और असिद्धि में समानता" }, b: { en: "Ignoring everyone", hi: "सबको अनदेखा करना" }, c: { en: "Constant fighting", hi: "निरंतर युद्ध" }, d: { en: "Accumulating wealth", hi: "धन संचय" }, correct: "a" },
+            { qEn: "According to the Gita, who is a 'Sthitapragya'?", qHi: "गीता के अनुसार 'स्थितप्रज्ञ' कौन है?", a: { en: "One with stable wisdom", hi: "स्थिर बुद्धि वाला व्यक्ति" }, b: { en: "A rich merchant", hi: "एक अमीर व्यापारी" }, c: { en: "A loud speaker", hi: "जोर से बोलने वाला" }, d: { en: "An angry warrior", hi: "एक क्रोधित योद्धा" }, correct: "a" },
+            { qEn: "Which 'Guna' is associated with darkness and ignorance?", qHi: "कौन सा 'गुण' अंधकार और अज्ञानता से जुड़ा है?", a: { en: "Sattva", hi: "सत्त्व" }, b: { en: "Rajas", hi: "रजस" }, c: { en: "Tamas", hi: "तमस" }, d: { en: "None", hi: "कोई नहीं" }, correct: "c" },
+            { qEn: "Karma Yoga emphasizes:", qHi: "कर्म योग किस पर जोर देता है?", a: { en: "Action without attachment to results", hi: "फल की आसक्ति के बिना कर्म" }, b: { en: "Renouncing all work", hi: "सभी कार्यों का त्याग" }, c: { en: "Working only for profit", hi: "केवल लाभ के लिए कार्य" }, d: { en: "Physical exercise", hi: "शारीरिक व्यायाम" }, correct: "a" },
+            { qEn: "How many types of 'Faith' (Shraddha) are mentioned?", qHi: "कितने प्रकार की 'श्रद्धा' का वर्णन है?", a: { en: "2", hi: "2" }, b: { en: "3", hi: "3" }, c: { en: "4", hi: "4" }, d: { en: "5", hi: "5" }, correct: "b" },
+            { qEn: "What is the root cause of all suffering according to the Gita?", qHi: "गीता के अनुसार सभी दुखों का मूल कारण क्या है?", a: { en: "Poverty", hi: "गरीबी" }, b: { en: "Attachment", hi: "आसक्ति" }, c: { en: "Lack of enemies", hi: "शत्रुओं की कमी" }, d: { en: "Old age", hi: "बुढ़ापा" }, correct: "b" },
+            { qEn: "Who is the supreme person described in the Gita?", qHi: "गीता में वर्णित परम पुरुष कौन है?", a: { en: "Krishna", hi: "श्रीकृष्ण" }, b: { en: "Arjuna", hi: "अर्जुन" }, c: { en: "Indra", hi: "इन्द्र" }, d: { en: "Agni", hi: "अग्नि" }, correct: "a" },
+            { qEn: "The term 'Daivim Sampadam' refers to:", qHi: "'दैवी सम्पदा' शब्द का क्या अर्थ है?", a: { en: "Divine qualities", hi: "दैवीय गुण" }, b: { en: "Demonic qualities", hi: "आसुरी गुण" }, c: { en: "Earthly gold", hi: "पृथ्वी का सोना" }, d: { en: "Royal weapons", hi: "राजसी शस्त्र" }, correct: "a" },
+            { qEn: "What is the significance of the 'Peepal' tree in the Gita?", qHi: "गीता में 'पीपल' (अश्वत्थ) के पेड़ का क्या महत्व है?", a: { en: "Symbol of the Universe", hi: "ब्रह्मांड का प्रतीक" }, b: { en: "Just a regular tree", hi: "केवल एक सामान्य पेड़" }, c: { en: "Used for firewood", hi: "जलाऊ लकड़ी के लिए" }, d: { en: "None", hi: "कोई नहीं" }, correct: "a" },
+            { qEn: "Which chapter covers 'Daivasura-Sampad-Vibhaga Yoga'?", qHi: "'दैवासुर-सम्पद्-विभाग योग' किस अध्याय में है?", a: { en: "12", hi: "12" }, b: { en: "14", hi: "14" }, c: { en: "16", hi: "16" }, d: { en: "18", hi: "18" }, correct: "c" },
+            { qEn: "What does 'Swadharma' mean?", qHi: "'स्वधर्म' का क्या अर्थ है?", a: { en: "One's own duty", hi: "अपना कर्तव्य" }, b: { en: "Changing religion", hi: "धर्म बदलना" }, c: { en: "Following others", hi: "दूसरों का अनुसरण" }, d: { en: "Doing nothing", hi: "कुछ न करना" }, correct: "a" },
+            { qEn: "Who narrates the final verse of the Gita?", qHi: "गीता का अंतिम श्लोक कौन बोलता है?", a: { en: "Krishna", hi: "कृष्ण" }, b: { en: "Arjuna", hi: "अर्जुन" }, c: { en: "Sanjaya", hi: "संजय" }, d: { en: "Dhritarashtra", hi: "धृतराष्ट्र" }, correct: "c" },
+            { qEn: "The teaching of the Gita was given at the onset of:", qHi: "गीता का उपदेश किसके प्रारंभ में दिया गया था?", a: { en: "Mahabharata War", hi: "महाभारत युद्ध" }, b: { en: "Coronation", hi: "राज्याभिषेक" }, c: { en: "Exile", hi: "वनवास" }, d: { en: "Marriage", hi: "विवाह" }, correct: "a" },
+            { qEn: "What is the goal of 'Yoga' in the Gita?", qHi: "गीता में 'योग' का लक्ष्य क्या है?", a: { en: "Physical strength", hi: "शारीरिक शक्ति" }, b: { en: "Union with the Divine", hi: "परमात्मा से मिलन" }, c: { en: "Wealth", hi: "धन" }, d: { en: "Power", hi: "शक्ति" }, correct: "b" },
+            { qEn: "What happens to the soul after death according to Chapter 2?", qHi: "द्वितीय अध्याय के अनुसार मृत्यु के बाद आत्मा का क्या होता है?", a: { en: "It dies", hi: "वह मर जाती है" }, b: { en: "It changes bodies like clothes", hi: "कपड़ों की तरह शरीर बदलती है" }, c: { en: "It vanishes", hi: "गायब हो जाती है" }, d: { en: "None", hi: "कोई नहीं" }, correct: "b" },
+            { qEn: "Who is the 'Father' of all beings according to Krishna?", qHi: "कृष्ण के अनुसार सभी प्राणियों का 'पिता' कौन है?", a: { en: "Brahma", hi: "ब्रह्मा" }, b: { en: "Krishna Himself", hi: "कृष्ण स्वयं" }, c: { en: "Vasudeva", hi: "वासुदेव" }, d: { en: "None", hi: "कोई नहीं" }, correct: "b" },
+            { qEn: "What is 'Ahinsa'?", qHi: "'अहिंसा' क्या है?", a: { en: "Non-violence", hi: "अहिंसा/हिंसा न करना" }, b: { en: "War", hi: "युद्ध" }, c: { en: "Stealing", hi: "चोरी" }, d: { en: "Lying", hi: "झूठ बोलना" }, correct: "a" },
+            { qEn: "Which chapter is titled 'Moksha-Sanyasa Yoga'?", qHi: "'मोक्ष-संन्यास योग' किस अध्याय का शीर्षक है?", a: { en: "1", hi: "1" }, b: { en: "10", hi: "10" }, c: { en: "15", hi: "15" }, d: { en: "18", hi: "18" }, correct: "d" },
+            { qEn: "What is the primary message for a leader?", qHi: "एक नेता के लिए मुख्य संदेश क्या है?", a: { en: "Lead by example", hi: "उदाहरण पेश कर नेतृत्व करना" }, b: { en: "Dominate others", hi: "दूसरों पर हावी होना" }, c: { en: "Collect taxes", hi: "कर वसूलना" }, d: { en: "Escape work", hi: "काम से बचना" }, correct: "a" },
+            { qEn: "'Yuktahara-viharasya' refers to:", qHi: "'युक्ताहार-विहारस्य' का तात्पर्य है:", a: { en: "Balanced lifestyle", hi: "संतुलित जीवन शैली" }, b: { en: "Eating too much", hi: "अत्यधिक भोजन" }, c: { en: "Not sleeping", hi: "न सोना" }, d: { en: "Over-exercising", hi: "अत्यधिक व्यायाम" }, correct: "a" },
+            { qEn: "What quality defines 'Sattva'?", qHi: "'सत्त्व' को कौन सा गुण परिभाषित करता है?", a: { en: "Purity and Light", hi: "पवित्रता और प्रकाश" }, b: { en: "Greed", hi: "लोभ" }, c: { en: "Laziness", hi: "आलस्य" }, d: { en: "Anger", hi: "क्रोध" }, correct: "a" },
+            { qEn: "Arjuna's confusion at the start is called:", qHi: "आरंभ में अर्जुन के भ्रम को क्या कहा जाता है?", a: { en: "Vishad", hi: "विषाद" }, b: { en: "Harsha", hi: "हर्ष" }, c: { en: "Shanti", hi: "शांति" }, d: { en: "Gyana", hi: "ज्ञान" }, correct: "a" },
+            { qEn: "Krishna acts as Arjuna's:", qHi: "कृष्ण अर्जुन के किस रूप में कार्य करते हैं?", a: { en: "Charioteer and Guide", hi: "सारथि और मार्गदर्शक" }, b: { en: "Enemy", hi: "शत्रु" }, c: { en: "King", hi: "राजा" }, d: { en: "Foot soldier", hi: "पैदल सैनिक" }, correct: "a" },
+            { qEn: "Which of these is a name for Krishna?", qHi: "इनमें से कौन सा कृष्ण का नाम है?", a: { en: "Govinda", hi: "गोविन्द" }, b: { en: "Janardana", hi: "जनार्दन" }, c: { en: "Achyuta", hi: "अच्युत" }, d: { en: "All of the above", hi: "उपरोक्त सभी" }, correct: "d" },
+            { qEn: "Where does the battle of Mahabharata take place?", qHi: "महाभारत का युद्ध कहाँ होता है?", a: { en: "Kurukshetra", hi: "कुरुक्षेत्र" }, b: { en: "Hastinapur", hi: "हस्तिनापुर" }, c: { en: "Mathura", hi: "मथुरा" }, d: { en: "Ayodhya", hi: "अयोध्या" }, correct: "a" },
+            { qEn: "The ultimate teaching of the Gita is to:", qHi: "गीता का अंतिम उपदेश है:", a: { en: "Surrender to the Divine", hi: "परमात्मा की शरण में जाना" }, b: { en: "Run away from war", hi: "युद्ध से भागना" }, c: { en: "Kill everyone", hi: "सबको मारना" }, d: { en: "Only seek money", hi: "केवल धन की खोज" }, correct: "a" }
+        ];
+
+        let currentLanguage = 'both';
+        let score = 0;
+        let answeredCount = 0;
+
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            document.getElementById('btnBoth').classList.remove('active');
+            document.getElementById('btnEnglish').classList.remove('active');
+            document.getElementById('btnHindi').classList.remove('active');
+            
+            if(lang === 'both') document.getElementById('btnBoth').classList.add('active');
+            if(lang === 'english') document.getElementById('btnEnglish').classList.add('active');
+            if(lang === 'hindi') document.getElementById('btnHindi').classList.add('active');
+            
+            loadQuiz();
+        }
+
+        function loadQuiz() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = '';
+            
+            questions.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'quiz-card';
+                
+                let questionHTML = '';
+                if (currentLanguage === 'both') {
+                    questionHTML = `<div class="question">${item.qEn}</div><div class="question-hindi">${item.qHi}</div>`;
+                } else if (currentLanguage === 'english') {
+                    questionHTML = `<div class="question">${item.qEn}</div>`;
+                } else {
+                    questionHTML = `<div class="question">${item.qHi}</div>`;
+                }
+                
+                let optionsHTML = '';
+                ['a', 'b', 'c', 'd'].forEach(opt => {
+                    if (currentLanguage === 'both') {
+                        optionsHTML += `<div class="option" onclick="checkAnswer(this, '${opt}', '${item.correct}', ${index})">${opt.toUpperCase()}. ${item[opt].en}<span class="option-hindi">${item[opt].hi}</span></div>`;
+                    } else if (currentLanguage === 'english') {
+                        optionsHTML += `<div class="option" onclick="checkAnswer(this, '${opt}', '${item.correct}', ${index})">${opt.toUpperCase()}. ${item[opt].en}</div>`;
+                    } else {
+                        optionsHTML += `<div class="option" onclick="checkAnswer(this, '${opt}', '${item.correct}', ${index})">${opt.toUpperCase()}. ${item[opt].hi}</div>`;
+                    }
+                });
+                
+                card.innerHTML = `<span class="question-number">Question ${index + 1}</span>${questionHTML}<div class="options" id="q${index}">${optionsHTML}</div>`;
+                container.appendChild(card);
+            });
+            
+            score = 0;
+            answeredCount = 0;
+            document.getElementById('progressBar').style.width = '0%';
+        }
+
+        function checkAnswer(element, selected, correct, qIndex) {
+            const parent = document.getElementById(`q${qIndex}`);
+            const options = parent.getElementsByClassName('option');
+
+            if (selected === correct) {
+                element.classList.add('correct');
+                score++;
+            } else {
+                element.classList.add('wrong');
+                for (let opt of options) {
+                    if (opt.textContent.trim().startsWith(correct.toUpperCase())) {
+                        opt.classList.add('correct');
+                    }
+                }
+            }
+
+            for (let opt of options) {
+                opt.classList.add('disabled');
+            }
+            
+            answeredCount++;
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const progress = (answeredCount / questions.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function calculateScore() {
+            if (answeredCount < questions.length) {
+                alert(`Please answer all questions! You've answered ${answeredCount} out of ${questions.length}.`);
+                return;
+            }
+            
+            const resultBox = document.getElementById('result-box');
+            const scoreText = document.getElementById('score-text');
+            const percentageText = document.getElementById('percentage-text');
+            const scoreMessage = document.getElementById('score-message');
+            const scoreEmoji = document.getElementById('scoreEmoji');
+            
+            const percentage = ((score / questions.length) * 100).toFixed(1);
+            
+            resultBox.style.display = 'block';
+            scoreText.textContent = `Final Score: ${score} / ${questions.length}`;
+            percentageText.textContent = `Percentage: ${percentage}%`;
+            
+            if (percentage >= 90) {
+                scoreMessage.textContent = 'Outstanding! You have mastered the Bhagavad Gita! 🌟';
+                scoreEmoji.textContent = '🏆';
+            } else if (percentage >= 75) {
+                scoreMessage.textContent = 'Excellent! You have great knowledge! 🎯';
+                scoreEmoji.textContent = '🎉';
+            } else if (percentage >= 60) {
+                scoreMessage.textContent = 'Good work! Keep studying! 📚';
+                scoreEmoji.textContent = '👍';
+            } else if (percentage >= 40) {
+                scoreMessage.textContent = 'Fair attempt! Review the teachings! 📖';
+                scoreEmoji.textContent = '📝';
+            } else {
+                scoreMessage.textContent = 'Keep learning! The journey continues! 🌱';
+                scoreEmoji.textContent = '🌸';
+            }
+            
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }
+
+        window.addEventListener('scroll', function() {
+            const scrollTop = document.getElementById('scrollTop');
+            if (window.pageYOffset > 300) {
+                scrollTop.classList.add('show');
+            } else {
+                scrollTop.classList.remove('show');
+            }
+        });
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        loadQuiz();
+    </script>
+</body>
+</html>
